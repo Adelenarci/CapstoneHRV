@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2EE3D0902D776629002E0CE5"
-               BuildableName = "Data.app"
-               BlueprintName = "Data"
-               ReferencedContainer = "container:Data.xcodeproj">
+               BuildableName = "CapstoneHRV.app"
+               BlueprintName = "CapstoneHRV"
+               ReferencedContainer = "container:CapstoneHRV.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2EE3D0A02D77662A002E0CE5"
-               BuildableName = "DataTests.xctest"
-               BlueprintName = "DataTests"
-               ReferencedContainer = "container:Data.xcodeproj">
+               BuildableName = "CapstoneHRVTests.xctest"
+               BlueprintName = "CapstoneHRVTests"
+               ReferencedContainer = "container:CapstoneHRV.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2EE3D0AA2D77662A002E0CE5"
-               BuildableName = "DataUITests.xctest"
-               BlueprintName = "DataUITests"
-               ReferencedContainer = "container:Data.xcodeproj">
+               BuildableName = "CapstoneHRVUITests.xctest"
+               BlueprintName = "CapstoneHRVUITests"
+               ReferencedContainer = "container:CapstoneHRV.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2EE3D0902D776629002E0CE5"
-            BuildableName = "Data.app"
-            BlueprintName = "Data"
-            ReferencedContainer = "container:Data.xcodeproj">
+            BuildableName = "CapstoneHRV.app"
+            BlueprintName = "CapstoneHRV"
+            ReferencedContainer = "container:CapstoneHRV.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,9 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2EE3D0902D776629002E0CE5"
-            BuildableName = "Data.app"
-            BlueprintName = "Data"
-            ReferencedContainer = "container:Data.xcodeproj">
+            BuildableName = "CapstoneHRV.app"
+            BlueprintName = "CapstoneHRV"
+            ReferencedContainer = "container:CapstoneHRV.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
