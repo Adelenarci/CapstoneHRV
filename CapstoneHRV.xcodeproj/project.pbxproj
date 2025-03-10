@@ -24,18 +24,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2EE3D0912D776629002E0CE5 /* Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Data.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EE3D0A12D77662A002E0CE5 /* DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EE3D0AB2D77662A002E0CE5 /* DataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE3D0912D776629002E0CE5 /* CapstoneHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CapstoneHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE3D0A12D77662A002E0CE5 /* CapstoneHRVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapstoneHRVTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE3D0AB2D77662A002E0CE5 /* CapstoneHRVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapstoneHRVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2EE3D0C02D77682A002E0CE5 /* Exceptions for "Data" folder in "Data" target */ = {
+		2EE3D0C02D77682A002E0CE5 /* Exceptions for "Data" folder in "CapstoneHRV" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 2EE3D0902D776629002E0CE5 /* Data */;
+			target = 2EE3D0902D776629002E0CE5 /* CapstoneHRV */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -43,7 +43,7 @@
 		2EE3D0932D776629002E0CE5 /* Data */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2EE3D0C02D77682A002E0CE5 /* Exceptions for "Data" folder in "Data" target */,
+				2EE3D0C02D77682A002E0CE5 /* Exceptions for "Data" folder in "CapstoneHRV" target */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -98,9 +98,9 @@
 		2EE3D0922D776629002E0CE5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2EE3D0912D776629002E0CE5 /* Data.app */,
-				2EE3D0A12D77662A002E0CE5 /* DataTests.xctest */,
-				2EE3D0AB2D77662A002E0CE5 /* DataUITests.xctest */,
+				2EE3D0912D776629002E0CE5 /* CapstoneHRV.app */,
+				2EE3D0A12D77662A002E0CE5 /* CapstoneHRVTests.xctest */,
+				2EE3D0AB2D77662A002E0CE5 /* CapstoneHRVUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2EE3D0902D776629002E0CE5 /* Data */ = {
+		2EE3D0902D776629002E0CE5 /* CapstoneHRV */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2EE3D0B52D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "Data" */;
+			buildConfigurationList = 2EE3D0B52D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRV" */;
 			buildPhases = (
 				2EE3D08D2D776629002E0CE5 /* Sources */,
 				2EE3D08E2D776629002E0CE5 /* Frameworks */,
@@ -123,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				2EE3D0932D776629002E0CE5 /* Data */,
 			);
-			name = Data;
+			name = CapstoneHRV;
 			packageProductDependencies = (
 			);
 			productName = Data;
-			productReference = 2EE3D0912D776629002E0CE5 /* Data.app */;
+			productReference = 2EE3D0912D776629002E0CE5 /* CapstoneHRV.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2EE3D0A02D77662A002E0CE5 /* DataTests */ = {
+		2EE3D0A02D77662A002E0CE5 /* CapstoneHRVTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2EE3D0B82D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "DataTests" */;
+			buildConfigurationList = 2EE3D0B82D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRVTests" */;
 			buildPhases = (
 				2EE3D09D2D77662A002E0CE5 /* Sources */,
 				2EE3D09E2D77662A002E0CE5 /* Frameworks */,
@@ -146,16 +146,16 @@
 			fileSystemSynchronizedGroups = (
 				2EE3D0A42D77662A002E0CE5 /* DataTests */,
 			);
-			name = DataTests;
+			name = CapstoneHRVTests;
 			packageProductDependencies = (
 			);
 			productName = DataTests;
-			productReference = 2EE3D0A12D77662A002E0CE5 /* DataTests.xctest */;
+			productReference = 2EE3D0A12D77662A002E0CE5 /* CapstoneHRVTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2EE3D0AA2D77662A002E0CE5 /* DataUITests */ = {
+		2EE3D0AA2D77662A002E0CE5 /* CapstoneHRVUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2EE3D0BB2D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "DataUITests" */;
+			buildConfigurationList = 2EE3D0BB2D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRVUITests" */;
 			buildPhases = (
 				2EE3D0A72D77662A002E0CE5 /* Sources */,
 				2EE3D0A82D77662A002E0CE5 /* Frameworks */,
@@ -169,11 +169,11 @@
 			fileSystemSynchronizedGroups = (
 				2EE3D0AE2D77662A002E0CE5 /* DataUITests */,
 			);
-			name = DataUITests;
+			name = CapstoneHRVUITests;
 			packageProductDependencies = (
 			);
 			productName = DataUITests;
-			productReference = 2EE3D0AB2D77662A002E0CE5 /* DataUITests.xctest */;
+			productReference = 2EE3D0AB2D77662A002E0CE5 /* CapstoneHRVUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2EE3D08C2D776629002E0CE5 /* Build configuration list for PBXProject "Data" */;
+			buildConfigurationList = 2EE3D08C2D776629002E0CE5 /* Build configuration list for PBXProject "CapstoneHRV" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -213,9 +213,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2EE3D0902D776629002E0CE5 /* Data */,
-				2EE3D0A02D77662A002E0CE5 /* DataTests */,
-				2EE3D0AA2D77662A002E0CE5 /* DataUITests */,
+				2EE3D0902D776629002E0CE5 /* CapstoneHRV */,
+				2EE3D0A02D77662A002E0CE5 /* CapstoneHRVTests */,
+				2EE3D0AA2D77662A002E0CE5 /* CapstoneHRVUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +271,12 @@
 /* Begin PBXTargetDependency section */
 		2EE3D0A32D77662A002E0CE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2EE3D0902D776629002E0CE5 /* Data */;
+			target = 2EE3D0902D776629002E0CE5 /* CapstoneHRV */;
 			targetProxy = 2EE3D0A22D77662A002E0CE5 /* PBXContainerItemProxy */;
 		};
 		2EE3D0AD2D77662A002E0CE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2EE3D0902D776629002E0CE5 /* Data */;
+			target = 2EE3D0902D776629002E0CE5 /* CapstoneHRV */;
 			targetProxy = 2EE3D0AC2D77662A002E0CE5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -414,7 +414,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Data/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"This app needs access to your ECG data for exporting purposes.\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"This app needs access to analyze ECG data.\"\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -426,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = project.Data;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -448,7 +447,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Data/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"This app needs access to your ECG data for exporting purposes.\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"This app needs access to analyze ECG data.\"\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -460,7 +458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = project.Data;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -483,7 +481,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Data.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Data";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CapstoneHRV.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CapstoneHRV";
 			};
 			name = Debug;
 		};
@@ -501,7 +499,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Data.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Data";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CapstoneHRV.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CapstoneHRV";
 			};
 			name = Release;
 		};
@@ -540,7 +538,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2EE3D08C2D776629002E0CE5 /* Build configuration list for PBXProject "Data" */ = {
+		2EE3D08C2D776629002E0CE5 /* Build configuration list for PBXProject "CapstoneHRV" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2EE3D0B32D77662A002E0CE5 /* Debug */,
@@ -549,7 +547,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EE3D0B52D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "Data" */ = {
+		2EE3D0B52D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRV" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2EE3D0B62D77662A002E0CE5 /* Debug */,
@@ -558,7 +556,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EE3D0B82D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "DataTests" */ = {
+		2EE3D0B82D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRVTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2EE3D0B92D77662A002E0CE5 /* Debug */,
@@ -567,7 +565,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EE3D0BB2D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "DataUITests" */ = {
+		2EE3D0BB2D77662A002E0CE5 /* Build configuration list for PBXNativeTarget "CapstoneHRVUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2EE3D0BC2D77662A002E0CE5 /* Debug */,
