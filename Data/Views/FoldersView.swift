@@ -302,7 +302,7 @@ struct ECGRow: View {
             }
             Spacer()
 
-            NavigationLink(destination: HRVAnalysisView(selectedECG: sample)) {
+            NavigationLink(destination: HRVAnalysisView(selectedECG: sample, ecgManager: ecgManager)) {
                 Image(systemName: "heart.text.square.fill")
                     .foregroundColor(.blue)
                     .font(.title3)

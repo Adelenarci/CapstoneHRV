@@ -1,20 +1,26 @@
 import SwiftUI
 
 struct HRVAnalysisView: View {
-    let selectedECG: ECGSample // ✅ Selected ECG sample for HRV Analysis
+    let selectedECG: ECGSample
+    @ObservedObject var ecgManager: ECGManager
 
     @State private var hrvData: [ECGDataPoint] = []
     @State private var detectedPeaks: [Double] = []
     @State private var hrvParameters: [String: Double] = [:]
+    @State private var rrIntervals: [RRInterval] = []
     @State private var graphID = UUID()
+    @State private var isAnalyzing = false
 
-    // 🔹 Reference values for HRV parameters
-    let referenceRanges: [String: (lower: Double, upper: Double)] = [
-        "RMSSD": (20.0, 70.0),
-        "SDNN": (30.0, 100.0),
-        "pNN50": (5.0, 30.0),
-        "LF/HF Ratio": (0.5, 3.0)
-    ]
+    struct RRInterval: Decodable, Identifiable {
+        let id = UUID()
+        let timestamp: Double
+        let rr: Double?
+    }
+
+    struct HRVAnalysisResponse: Decodable {
+        let hrvMetrics: [String: Double]
+        let rrTable: [RRInterval]
+    }
 
     var body: some View {
         NavigationView {
@@ -23,39 +29,37 @@ struct HRVAnalysisView: View {
                     .font(.largeTitle)
                     .padding()
 
-                if !hrvData.isEmpty {
-                    VStack {
-                        Text("ECG Waveform")
-                            .font(.headline)
-                            .padding(.top, 10)
-
-                        ECGGraphView(ecgData: hrvData, detectedPeaks: detectedPeaks)
-                            .id(graphID)
-                            .frame(height: 300)
-                            .padding(.horizontal)
-                    }
-                    .background(RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color(.systemBackground))
-                                    .shadow(radius: 2))
-                    .padding(.bottom, 10)
+                if isAnalyzing {
+                    ProgressView("Analyzing ECG...")
+                        .padding()
+                } else if !hrvData.isEmpty {
+                    ECGGraphView(ecgData: hrvData, detectedPeaks: detectedPeaks)
+                        .id(graphID)
+                        .frame(height: 300)
+                        .padding()
                 }
 
-                PeakTimestampsView(detectedPeaks: detectedPeaks)
+                if !rrIntervals.isEmpty {
+                    List(rrIntervals) { interval in
+                        HStack {
+                            Text("\(interval.timestamp, specifier: "%.4f") s")
+                            Spacer()
+                            Text(interval.rr != nil ? "\(interval.rr!, specifier: "%.4f") s" : "—")
+                        }
+                    }
+                    .frame(height: 200)
+                }
 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading) {
                     Text("HRV Parameters")
                         .font(.headline)
+                        .padding(.bottom, 5)
 
                     ForEach(hrvParameters.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                        let range = referenceRanges[key] ?? (0, 100)
-                        let color = getColor(for: value, within: range)
-
                         HStack {
                             Text("\(key):")
-                                .bold()
                             Spacer()
                             Text("\(value, specifier: "%.2f")")
-                                .foregroundColor(color)
                         }
                     }
                 }
@@ -67,50 +71,87 @@ struct HRVAnalysisView: View {
                 Spacer()
             }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    loadECGData()
-                }
+                loadAndAnalyzeECG()
             }
         }
     }
 
-    /// Loads ECG data for the selected sample
-    func loadECGData() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let mockECG = downsampleECGData(createMockECGData(), factor: 10)
-            let peaks = detectPeaks(in: mockECG)
+    private func loadAndAnalyzeECG() {
+        isAnalyzing = true
+        ecgManager.fetchECGData(for: selectedECG)
 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            guard !ecgManager.ecgData.isEmpty else {
+                isAnalyzing = false
+                print("❌ No ECG data found.")
+                return
+            }
+
+            hrvData = ecgManager.ecgData
+            detectedPeaks = detectPeaks(in: ecgManager.ecgData.map { ($0.time, $0.voltage) })
+            graphID = UUID()
+
+            sendECGToBackend(ecgData: hrvData)
+        }
+    }
+
+    private func sendECGToBackend(ecgData: [ECGDataPoint]) {
+        // ✅ Prepare CSV as: Time (s);Voltage (mV)
+        var csvString = "Time (s);Voltage (mV)\n"
+        ecgData.forEach { point in
+            let voltageInMV = point.voltage / 1000.0
+            csvString += "\(String(format: "%.6f", point.time));\(String(format: "%.3f", voltageInMV))\n"
+        }
+
+        guard let csvData = csvString.data(using: .utf8) else {
+            print("❌ CSV encoding failed.")
+            isAnalyzing = false
+            return
+        }
+
+        // ✅ Create multipart/form-data request
+        let boundary = UUID().uuidString
+        var request = URLRequest(url: URL(string: "https://capstoneapi-85nh.onrender.com/analyze")!)
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"ecg.csv\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: text/csv\r\n\r\n".data(using: .utf8)!)
+        body.append(csvData)
+        body.append("\r\n".data(using: .utf8)!)
+
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"start_index\"\r\n\r\n".data(using: .utf8)!)
+        body.append("0\r\n".data(using: .utf8)!)
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+
+        // ✅ Call the API
+        URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
-                self.hrvData = mockECG.map { ECGDataPoint(time: $0.time, voltage: $0.voltage) }
-                self.detectedPeaks = peaks
-
-                self.hrvParameters = [
-                    "RMSSD": 23.5,
-                    "SDNN": 50.2,
-                    "pNN50": 18.3,
-                    "LF/HF Ratio": 1.75
-                ]
+                isAnalyzing = false
             }
-        }
-    }
-    
-    /// Downsamples ECG Data for smoother rendering
-    func downsampleECGData(_ data: [(time: Double, voltage: Double)], factor: Int = 10) -> [(time: Double, voltage: Double)] {
-        guard factor > 1 else { return data }
-        return data.enumerated().compactMap { index, point in
-            return index % factor == 0 ? point : nil
-        }
-    }
 
-    /// Determines text color based on HRV parameter values
-    func getColor(for value: Double, within range: (lower: Double, upper: Double)) -> Color {
-        let margin = (range.upper - range.lower) * 0.1 // 10% margin for yellow
-        if value < range.lower - margin || value > range.upper + margin {
-            return .red // 🚨 Out of range
-        } else if value < range.lower || value > range.upper {
-            return .yellow // ⚠️ Near limits
-        } else {
-            return .green // ✅ Normal range
-        }
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                print("❌ API Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            if let metricsHeader = httpResponse.allHeaderFields["X-Metrics"] as? String,
+               let metricsData = metricsHeader.data(using: .utf8),
+               let decoded = try? JSONDecoder().decode(HRVAnalysisResponse.self, from: metricsData) {
+
+                DispatchQueue.main.async {
+                    self.hrvParameters = decoded.hrvMetrics
+                    self.rrIntervals = decoded.rrTable
+                    print("✅ HRV data received and parsed.")
+                }
+            } else {
+                print("❌ Failed to decode X-Metrics header.")
+            }
+        }.resume()
     }
 }
