@@ -96,62 +96,63 @@ struct HRVAnalysisView: View {
     }
 
     private func sendECGToBackend(ecgData: [ECGDataPoint]) {
-        // ✅ Prepare CSV as: Time (s);Voltage (mV)
-        var csvString = "Time (s);Voltage (mV)\n"
-        ecgData.forEach { point in
-            let voltageInMV = point.voltage / 1000.0
-            csvString += "\(String(format: "%.6f", point.time));\(String(format: "%.3f", voltageInMV))\n"
+    // ✅ Prepare CSV as: Time (s);Voltage (mV)
+    var csvString = "Time (s);Voltage (mV)\n"
+    ecgData.forEach { point in
+        let voltageInMV = point.voltage / 1000.0
+        csvString += "\(String(format: "%.6f", point.time));\(String(format: "%.3f", voltageInMV))\n"
+    }
+
+    guard let csvData = csvString.data(using: .utf8) else {
+        print("❌ CSV encoding failed.")
+        isAnalyzing = false
+        return
+    }
+
+    // ✅ Create multipart/form-data request
+    let boundary = UUID().uuidString
+    var request = URLRequest(url: URL(string: "https://eac1-37-154-169-248.ngrok-free.app/analyze")!) // <--- YOUR ngrok URL here
+    request.httpMethod = "POST"
+    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+    var body = Data()
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("Content-Disposition: form-data; name=\"file\"; filename=\"ecg.csv\"\r\n".data(using: .utf8)!)
+    body.append("Content-Type: text/csv\r\n\r\n".data(using: .utf8)!)
+    body.append(csvData)
+    body.append("\r\n".data(using: .utf8)!)
+
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("Content-Disposition: form-data; name=\"start_index\"\r\n\r\n".data(using: .utf8)!)
+    body.append("0\r\n".data(using: .utf8)!)
+
+    body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+    request.httpBody = body
+
+    // ✅ Call the API
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        DispatchQueue.main.async {
+            isAnalyzing = false
         }
 
-        guard let csvData = csvString.data(using: .utf8) else {
-            print("❌ CSV encoding failed.")
-            isAnalyzing = false
+        guard let data = data, error == nil else {
+            print("❌ Request failed: \(error?.localizedDescription ?? "Unknown error")")
             return
         }
 
-        // ✅ Create multipart/form-data request
-        let boundary = UUID().uuidString
-        var request = URLRequest(url: URL(string: "https://capstoneapi-85nh.onrender.com/analyze")!)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-        var body = Data()
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"ecg.csv\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: text/csv\r\n\r\n".data(using: .utf8)!)
-        body.append(csvData)
-        body.append("\r\n".data(using: .utf8)!)
-
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"start_index\"\r\n\r\n".data(using: .utf8)!)
-        body.append("0\r\n".data(using: .utf8)!)
-
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        request.httpBody = body
-
-        // ✅ Call the API
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        do {
+            let decoded = try JSONDecoder().decode(HRVAnalysisResponse.self, from: data)
             DispatchQueue.main.async {
-                isAnalyzing = false
+                self.hrvParameters = decoded.hrvMetrics
+                self.rrIntervals = decoded.rrTable
+                print("✅ HRV data received and parsed.")
             }
-
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                print("❌ API Error: \(error?.localizedDescription ?? "Unknown error")")
-                return
+        } catch {
+            print("❌ Decoding error: \(error.localizedDescription)")
+            if let responseStr = String(data: data, encoding: .utf8) {
+                print("Response: \(responseStr)")
             }
-
-            if let metricsHeader = httpResponse.allHeaderFields["X-Metrics"] as? String,
-               let metricsData = metricsHeader.data(using: .utf8),
-               let decoded = try? JSONDecoder().decode(HRVAnalysisResponse.self, from: metricsData) {
-
-                DispatchQueue.main.async {
-                    self.hrvParameters = decoded.hrvMetrics
-                    self.rrIntervals = decoded.rrTable
-                    print("✅ HRV data received and parsed.")
-                }
-            } else {
-                print("❌ Failed to decode X-Metrics header.")
-            }
-        }.resume()
-    }
+        }
+    }.resume()
+}
 }
