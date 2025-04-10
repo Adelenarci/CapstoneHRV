@@ -8,7 +8,6 @@ struct ECGDataView: View {
             ScrollView {
                 VStack(spacing: 12) {
                     headerView()
-
                     unassignedECGView()
                 }
                 .padding()
