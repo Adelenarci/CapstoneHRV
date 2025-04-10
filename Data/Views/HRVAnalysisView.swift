@@ -111,7 +111,7 @@ struct HRVAnalysisView: View {
 
     // ✅ Create multipart/form-data request
     let boundary = UUID().uuidString
-    var request = URLRequest(url: URL(string: "https://eac1-37-154-169-248.ngrok-free.app/analyze")!) // <--- YOUR ngrok URL here
+    var request = URLRequest(url: URL(string: " https://6740-37-154-169-248.ngrok-free.app/analyze")!) // <--- YOUR ngrok URL here
     request.httpMethod = "POST"
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
